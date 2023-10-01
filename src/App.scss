@@ -1,0 +1,5 @@
+@use './assets/common/styles/abstracts/colors' as c;
+
+body {
+  background-color: c.$page-bg-color;
+}

@@ -1,0 +1,16 @@
+@use '../assets/common/styles/abstracts/' as v;
+@use '../assets/common/styles/utils/' as u;
+
+.game {
+  margin: u.toRem(30px) u.toRem(20px);
+  background-color: #fff;
+
+  &__title {
+    color: v.$heading-color;
+    text-align: center;
+    font-family: 'Karla';
+    font-size: u.toRem(25.6px);
+    font-weight: 700;
+    letter-spacing: -0.768px;
+  }
+}
