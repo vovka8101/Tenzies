@@ -1,5 +1,12 @@
-@use 'sass:math';
+@use "sass:math";
+@use "sass:list";
 
-@function toRem($pxValue) {
-  @return math.div($pxValue, 16px) * 1rem;
+@function toRem($pxValues...) {
+  $remValues: ();
+  @for $i from 1 through list.length($pxValues) {
+    $value: math.div(list.nth($pxValues, $i), 16px) * 1rem;
+    $remValues: list.append($remValues, $value);
+  }
+
+  @return $remValues;
 }

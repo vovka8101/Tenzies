@@ -2,15 +2,28 @@
 @use '../assets/common/styles/utils/' as u;
 
 .game {
-  margin: u.toRem(30px) u.toRem(20px);
-  background-color: #fff;
+  margin-inline: u.toRem(10px);
+  padding: u.toRem(20px, 16px);
+  background-color: v.$game-bg-color;
+  border-radius: 10px;
 
   &__title {
-    color: v.$heading-color;
+    color: v.$heading-text-color;
     text-align: center;
     font-family: 'Karla';
-    font-size: u.toRem(25.6px);
+    font-size: u.toRem(32px);
     font-weight: 700;
     letter-spacing: -0.768px;
+    margin-bottom: u.toRem(10px);
+  }
+
+  &__instruction {
+    max-width: u.toRem(230px);
+    color: v.$instruction-text-color;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: u.toRem(16px);
+    letter-spacing: -0.393px;
+    margin-bottom: u.toRem(24px);
   }
 }
