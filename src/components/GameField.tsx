@@ -5,14 +5,21 @@ type FieldProps = {
     readonly id: string;
     value: number;
     hold: boolean;
-  }[]
+  }[];
+  handleHold: (id: string) => void;
 }
 
-export const GameField: FC<FieldProps> = ({ fields }) => {
+export const GameField: FC<FieldProps> = ({ fields, handleHold }) => {
   return (
     <div className="game__field field">
       {fields.map(field => (
-        <span>{field.value} </span>
+        <div
+          key={field.id}
+          onClick={() => handleHold(field.id)}
+          className={'field__item' + (field.hold ? ' field__item--active' : '')}
+        >
+          {field.value}
+        </div>
       ))}
     </div>
   )

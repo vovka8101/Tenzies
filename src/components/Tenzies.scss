@@ -2,16 +2,17 @@
 @use '../assets/common/styles/utils/' as u;
 
 .game {
-  margin-inline: u.toRem(10px);
-  padding: u.toRem(20px, 16px);
+  padding: u.toRem(30px, 16px);
   background-color: v.$game-bg-color;
   border-radius: 10px;
+
+  &__content {
+  }
 
   &__title {
     color: v.$heading-text-color;
     text-align: center;
-    font-family: 'Karla';
-    font-size: u.toRem(32px);
+    font-size: u.toRem(38px);
     font-weight: 700;
     letter-spacing: -0.768px;
     margin-bottom: u.toRem(10px);
@@ -19,11 +20,51 @@
 
   &__instruction {
     max-width: u.toRem(230px);
+    margin-inline: auto;
     color: v.$instruction-text-color;
     text-align: center;
     font-family: 'Inter';
-    font-size: u.toRem(16px);
+    font-size: u.toRem(20px);
     letter-spacing: -0.393px;
     margin-bottom: u.toRem(24px);
+  }
+
+  .field {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: u.toRem(16px);
+    margin-bottom: u.toRem(26px);
+
+    &__item {
+      color: v.$heading-text-color;
+      padding: u.toRem(8px) 0;
+      background-color: #fff;
+      text-align: center;
+      font-size: u.toRem(20px);
+      font-weight: 700;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.15);
+      user-select: none;
+      cursor: pointer;
+    }
+
+    &__item--active {
+      background-color: v.$active-field-color;
+    }
+  }
+
+  &__roll-btn {
+    padding: u.toRem(12px);
+    display: block;
+    margin-inline: auto;
+    min-width: 40%;
+    background-color: v.$game-btn-color;
+    color: #fff;
+    font-size: u.toRem(18px);
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
   }
 }

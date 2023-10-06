@@ -11,8 +11,9 @@ function Tenzies() {
   }
 
   const [fields, setFields] = useState<Game[]>([]);
+  const [isWin, setIsWin] = useState(false);
 
-  useEffect(() => {
+  function getInitialFields(): Game[] {
     const initialFields: Game[] = [];
 
     for (let i = 0; i < 10; i++) {
@@ -23,12 +24,16 @@ function Tenzies() {
       });
     }
 
-    setFields(initialFields);
-  }, []);
+    return initialFields;
+  }
 
   function generateNumber(): number {
     return Math.floor(Math.random() * 6 + 1);
   }
+
+  useEffect(() => {
+    setFields(getInitialFields());
+  }, []);
 
   function handleRoll(): void {
     setFields((oldFields): Game[] => {
@@ -39,16 +44,37 @@ function Tenzies() {
     });
   }
 
+  function handleHold(id: string): void {
+    setFields((oldFields): Game[] => {
+      return oldFields.map((field): Game => ({
+        ...field,
+        hold: field.id === id ? !field.hold : field.hold
+      }))
+    })
+
+    setIsWin(fields.every(field => field.value === fields[0].value));
+  }
+
+  function handleNewGame() {
+    setFields(getInitialFields());
+    setIsWin(false);
+  }
+
   return (
     <section className='game'>
-      <h1 className='game__title'>Tenzies</h1>
-      <p className="game__instruction">
-        Roll until all dice are the same. Click
-        each die to freeze it at its current value
-        between rolls.
-      </p>
-      <GameField fields={fields} />
-      <button className='game__roll-btn' onClick={handleRoll}>Roll</button>
+      <div className="game__content">
+        <h1 className='game__title'>Tenzies</h1>
+        <p className="game__instruction">
+          Roll until all dice are the same. Click
+          each die to freeze it at its current value
+          between rolls.
+        </p>
+        <GameField fields={fields} handleHold={handleHold} />
+        {isWin
+          ? <button className='game__roll-btn' onClick={handleNewGame}>New game</button>
+          : <button className='game__roll-btn' onClick={handleRoll}>Roll</button>
+        }
+      </div>
     </section>
   )
 }
