@@ -6,9 +6,6 @@
   background-color: v.$game-bg-color;
   border-radius: 10px;
 
-  &__content {
-  }
-
   &__title {
     color: v.$heading-text-color;
     text-align: center;
@@ -24,7 +21,7 @@
     color: v.$instruction-text-color;
     text-align: center;
     font-family: 'Inter';
-    font-size: u.toRem(20px);
+    font-size: u.toRem(16px);
     letter-spacing: -0.393px;
     margin-bottom: u.toRem(24px);
   }
@@ -32,12 +29,12 @@
   .field {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: u.toRem(16px);
+    gap: u.toRem(12px);
     margin-bottom: u.toRem(26px);
 
     &__item {
       color: v.$heading-text-color;
-      padding: u.toRem(8px) 0;
+      padding: u.toRem(7px) 0;
       background-color: #fff;
       text-align: center;
       font-size: u.toRem(20px);
