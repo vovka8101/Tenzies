@@ -1,4 +1,4 @@
-import { FC } from 'react'; // instead of: ({ fields }: FieldProps)
+import { FC } from 'react';
 
 type FieldProps = {
   fields: {
@@ -10,15 +10,17 @@ type FieldProps = {
 }
 
 export const GameField: FC<FieldProps> = ({ fields, handleHold }) => {
+  const dotElements: JSX.Element[] = Array(9).fill(<div className="dot"></div>);
+
   return (
     <div className="game__field field">
       {fields.map(field => (
         <div
           key={field.id}
           onClick={() => handleHold(field.id)}
-          className={'field__item' + (field.isHeld ? ' field__item--active' : '')}
+          className={'field__item' + ` field__item--${field.value}` + (field.isHeld ? ' field__item--active' : '')}
         >
-          {field.value}
+          {dotElements}
         </div>
       ))}
     </div>

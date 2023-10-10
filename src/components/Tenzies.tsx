@@ -67,11 +67,11 @@ function Tenzies() {
 
   return (
     <section className='game'>
-      {isWin && <Confetti/>}
+      {isWin && <Confetti />}
       <h1 className='game__title'>Tenzies</h1>
       <p className="game__instruction">
-        Roll until all dice are the same. Click
-        each die to freeze it at its current value
+        Roll until all dice are the same.<br />
+        Click each die to freeze it at its current value
         between rolls.
       </p>
       <GameField fields={fields} handleHold={handleHold} />

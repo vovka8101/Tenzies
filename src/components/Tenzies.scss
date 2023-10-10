@@ -2,7 +2,8 @@
 @use '../assets/common/styles/utils/' as u;
 
 .game {
-  padding: u.toRem(30px, 16px);
+  width: u.toRem(500px);
+  padding: u.toRem(30px);
   background-color: v.$game-bg-color;
   border-radius: 10px;
 
@@ -16,7 +17,6 @@
   }
 
   &__instruction {
-    max-width: u.toRem(230px);
     margin-inline: auto;
     color: v.$instruction-text-color;
     text-align: center;
@@ -27,26 +27,77 @@
   }
 
   .field {
+    max-width: u.toRem(320px);
+    margin-inline: auto;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: u.toRem(12px);
+    row-gap: u.toRem(12px);
+    justify-content: space-between;
     margin-bottom: u.toRem(26px);
 
     &__item {
+      width: u.toRem(50px);
+      height: u.toRem(50px);
       color: v.$heading-text-color;
-      padding: u.toRem(7px) 0;
       background-color: #fff;
-      text-align: center;
-      font-size: u.toRem(20px);
-      font-weight: 700;
       border-radius: 4px;
-      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.15);
+      border: 1px solid black;
+      box-shadow: 0px 0px 0px 4px #fff;
       user-select: none;
       cursor: pointer;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
+      align-items: center;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      .dot {
+        visibility: hidden;
+        width: u.toRem(11.5px);
+        height: u.toRem(11.5px);
+        background-color: #000;
+        border-radius: 50%;
+      }
     }
 
     &__item--active {
       background-color: v.$active-field-color;
+    }
+
+    &__item--1 {
+      .dot:nth-child(5) {
+        visibility: visible;
+      }
+    }
+    &__item--2 {
+      .dot:nth-child(6n + 2) {
+        visibility: visible;
+      }
+    }
+    &__item--3 {
+      .dot:nth-child(4n + 1) {
+        visibility: visible;
+      }
+    }
+    &__item--4 {
+      .dot:nth-child(8n + 1),
+      .dot:nth-child(4n + 3) {
+        visibility: visible;
+      }
+    }
+    &__item--5 {
+      .dot:nth-child(odd) {
+        visibility: visible;
+      }
+    }
+    &__item--6 {
+      .dot:nth-child(3n + 1),
+      .dot:nth-child(3n + 3) {
+        visibility: visible;
+      }
     }
   }
 
