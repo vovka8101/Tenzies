@@ -3,6 +3,7 @@ import { GameField } from './GameField';
 import { nanoid } from 'nanoid';
 import Confetti from 'react-confetti'
 import './Tenzies.scss';
+import { CountResults } from './CountResults';
 
 function Tenzies() {
   type Game = {
@@ -12,6 +13,9 @@ function Tenzies() {
   }
 
   const [fields, setFields] = useState<Game[]>(allNewDice());
+  const [rollCount, setRollCount] = useState(0);
+  const [timerOn, setTimerOn] = useState(false);
+  const [time, setTime] = useState(0);
   const [isWin, setIsWin] = useState(false);
 
   useEffect(() => {
@@ -19,8 +23,27 @@ function Tenzies() {
 
     if (allTheSameDices) {
       setIsWin(allTheSameDices);
+      setTimerOn(false);
     }
   }, [fields]);
+
+  useEffect(() => {
+    if (!timerOn) {
+      return
+    }
+
+    const timer = setInterval(() => {
+      setTime((prevTime) => prevTime + 50);
+    }, 50);
+
+    return () => clearInterval(timer);
+  }, [timerOn]);
+
+  const formatTime = (milliseconds: number) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const remainingMilliseconds = Math.round((milliseconds % 1000) / 10);
+    return `${String(seconds).padStart(2, '0')}:${String(remainingMilliseconds).padStart(2, '0')}`;
+  };
 
   function generateNumber(): number {
     return Math.floor(Math.random() * 6 + 1);
@@ -42,20 +65,25 @@ function Tenzies() {
 
   function handleRoll(): void {
     if (!isWin) {
+      if (!timerOn) { setTimerOn(true) }
       setFields((oldFields): Game[] => {
         return oldFields.map((field): Game => ({
           ...field,
           value: field.isHeld ? field.value : generateNumber()
         }));
       });
+      setRollCount(rollCount + 1);
     } else {
       setIsWin(false);
       setFields(allNewDice());
+      setRollCount(0);
+      setTime(0);
     }
   }
 
   function handleHold(id: string): void {
     if (!isWin) {
+      if (!timerOn) { setTimerOn(true) }
       setFields((oldFields): Game[] => {
         return oldFields.map((field): Game => ({
           ...field,
@@ -72,11 +100,13 @@ function Tenzies() {
       <p className="game__instruction">
         Roll until all dice are the same.<br />
         Click each die to freeze it at its current value
-        between rolls.
+        between rolls.<br />
+        Click on die or roll button to start the game.
       </p>
+      <CountResults rollCount={rollCount} formatTime={() => formatTime(time)} />
       <GameField fields={fields} handleHold={handleHold} />
-      <button className='game__roll-btn' onClick={handleRoll}>
-        {isWin ? 'New Game' : 'Roll'}
+      <button className='game__roll-btn btn' onClick={handleRoll}>
+        {isWin ? 'New game' : 'Roll'}
       </button>
     </section>
   )

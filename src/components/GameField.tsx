@@ -10,10 +10,10 @@ type FieldProps = {
 }
 
 export const GameField: FC<FieldProps> = ({ fields, handleHold }) => {
-  const dotElements: JSX.Element[] = Array(9).fill(<div className="dot"></div>);
+  const dotElements: JSX.Element[] = Array.from(Array(9), (_, i) => <div key={i} className="dot"></div>);
 
   return (
-    <div className="game__field field">
+    <section className="game__field field">
       {fields.map(field => (
         <div
           key={field.id}
@@ -23,6 +23,6 @@ export const GameField: FC<FieldProps> = ({ fields, handleHold }) => {
           {dotElements}
         </div>
       ))}
-    </div>
+    </section>
   )
 }

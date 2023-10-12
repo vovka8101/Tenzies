@@ -26,13 +26,29 @@
     margin-bottom: u.toRem(24px);
   }
 
+  .counter {
+    display: flex;
+    justify-content: center;
+    gap: u.toRem(30px);
+    color: v.$instruction-text-color;
+    margin-bottom: u.toRem(20px);
+
+    &__rolls {
+      width: u.toRem(70px);
+    }
+
+    &__timer {
+      width: u.toRem(100px);
+    }
+  }
+
   .field {
     max-width: u.toRem(320px);
     margin-inline: auto;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     row-gap: u.toRem(12px);
-    justify-content: space-between;
+    justify-items: center;
     margin-bottom: u.toRem(26px);
 
     &__item {
@@ -101,18 +117,7 @@
     }
   }
 
-  &__roll-btn {
-    padding: u.toRem(12px);
-    display: block;
-    margin-inline: auto;
-    min-width: 40%;
-    background-color: v.$game-btn-color;
-    color: #fff;
-    font-size: u.toRem(18px);
-    font-weight: 700;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
+  &__roll-btn {}
+
+  &__start-btn {}
 }
