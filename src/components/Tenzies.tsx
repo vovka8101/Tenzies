@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GameField } from './GameField';
 import { nanoid } from 'nanoid';
 import Confetti from 'react-confetti'
 import './Tenzies.scss';
 import { CountResults } from './CountResults';
+import { CheckResults } from '../assets/common/functions/CheckResults';
+import { BestResults } from './BestResults';
 
 function Tenzies() {
   type Game = {
@@ -12,11 +14,27 @@ function Tenzies() {
     isHeld: boolean;
   }
 
+  type Results = {
+    bestRolls: number
+    bestTime: number
+  }
+
   const [fields, setFields] = useState<Game[]>(allNewDice());
+  const [best, setBest] = useState<Results>({bestRolls: 0, bestTime: 0});
   const [rollCount, setRollCount] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
   const [time, setTime] = useState(0);
   const [isWin, setIsWin] = useState(false);
+  const timeRef = useRef(0);
+  const rollsRef = useRef(0);
+
+  useEffect(() => {
+    const bestResults: string | null = localStorage.getItem('bestResults');
+
+    if (bestResults) {
+      setBest(JSON.parse(bestResults))
+    }
+  }, [])
 
   useEffect(() => {
     const allTheSameDices = fields.every(field => field.isHeld && (field.value === fields[0].value));
@@ -24,6 +42,7 @@ function Tenzies() {
     if (allTheSameDices) {
       setIsWin(allTheSameDices);
       setTimerOn(false);
+      CheckResults({bestRolls: rollsRef.current, bestTime: timeRef.current});
     }
   }, [fields]);
 
@@ -34,6 +53,7 @@ function Tenzies() {
 
     const timer = setInterval(() => {
       setTime((prevTime) => prevTime + 50);
+      timeRef.current += 50;
     }, 50);
 
     return () => clearInterval(timer);
@@ -73,11 +93,14 @@ function Tenzies() {
         }));
       });
       setRollCount(rollCount + 1);
+      rollsRef.current += 1;
     } else {
       setIsWin(false);
       setFields(allNewDice());
       setRollCount(0);
+      rollsRef.current = 0;
       setTime(0);
+      timeRef.current = 0;
     }
   }
 
@@ -108,6 +131,7 @@ function Tenzies() {
       <button className='game__roll-btn btn' onClick={handleRoll}>
         {isWin ? 'New game' : 'Roll'}
       </button>
+      <BestResults {...best} />
     </section>
   )
 }
