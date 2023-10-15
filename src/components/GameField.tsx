@@ -1,11 +1,8 @@
 import { FC } from 'react';
+import { Game } from '../assets/common/types/Tenzies.types';
 
 type FieldProps = {
-  fields: {
-    readonly id: string;
-    value: number;
-    isHeld: boolean;
-  }[];
+  fields: Game[];
   handleHold: (id: string) => void;
 }
 

@@ -1,32 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GameField } from './GameField';
 import { nanoid } from 'nanoid';
 import Confetti from 'react-confetti'
 import './Tenzies.scss';
 import { CountResults } from './CountResults';
-import { CheckResults } from '../assets/common/functions/CheckResults';
+import { CheckResults, formatTime } from '../assets/common/functions/functions';
 import { BestResults } from './BestResults';
+import { Game, Results } from '../assets/common/types/Tenzies.types';
 
 function Tenzies() {
-  type Game = {
-    readonly id: string;
-    value: number;
-    isHeld: boolean;
-  }
-
-  type Results = {
-    bestRolls: number
-    bestTime: number
-  }
-
   const [fields, setFields] = useState<Game[]>(allNewDice());
-  const [best, setBest] = useState<Results>({bestRolls: 0, bestTime: 0});
+  const [best, setBest] = useState<Results>({ bestRolls: 0, bestTime: 0 });
   const [rollCount, setRollCount] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
   const [time, setTime] = useState(0);
   const [isWin, setIsWin] = useState(false);
-  const timeRef = useRef(0);
-  const rollsRef = useRef(0);
 
   useEffect(() => {
     const bestResults: string | null = localStorage.getItem('bestResults');
@@ -42,7 +30,14 @@ function Tenzies() {
     if (allTheSameDices) {
       setIsWin(allTheSameDices);
       setTimerOn(false);
-      CheckResults({bestRolls: rollsRef.current, bestTime: timeRef.current});
+      const newRes = {
+        bestRolls: rollCount,
+        bestTime: time
+      }
+
+      if (CheckResults(best, newRes)) {
+        setBest(newRes);
+      }
     }
   }, [fields]);
 
@@ -53,17 +48,10 @@ function Tenzies() {
 
     const timer = setInterval(() => {
       setTime((prevTime) => prevTime + 50);
-      timeRef.current += 50;
     }, 50);
 
     return () => clearInterval(timer);
   }, [timerOn]);
-
-  const formatTime = (milliseconds: number) => {
-    const seconds = Math.floor(milliseconds / 1000);
-    const remainingMilliseconds = Math.round((milliseconds % 1000) / 10);
-    return `${String(seconds).padStart(2, '0')}:${String(remainingMilliseconds).padStart(2, '0')}`;
-  };
 
   function generateNumber(): number {
     return Math.floor(Math.random() * 6 + 1);
@@ -93,14 +81,11 @@ function Tenzies() {
         }));
       });
       setRollCount(rollCount + 1);
-      rollsRef.current += 1;
     } else {
       setIsWin(false);
       setFields(allNewDice());
       setRollCount(0);
-      rollsRef.current = 0;
       setTime(0);
-      timeRef.current = 0;
     }
   }
 

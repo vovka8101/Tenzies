@@ -2,7 +2,7 @@
 @use '../assets/common/styles/utils/' as u;
 
 .game {
-  width: u.toRem(500px);
+  max-width: u.toRem(500px);
   padding: u.toRem(30px);
   background-color: v.$game-bg-color;
   border-radius: 10px;
@@ -34,11 +34,11 @@
     margin-bottom: u.toRem(20px);
 
     &__rolls {
-      width: u.toRem(70px);
+      width: u.toRem(72px);
     }
 
     &__timer {
-      width: u.toRem(100px);
+      width: u.toRem(125px);
     }
   }
 
@@ -50,6 +50,12 @@
     row-gap: u.toRem(12px);
     justify-items: center;
     margin-bottom: u.toRem(26px);
+
+    @media (max-width: 360px) {
+      width: u.toRem(160px);
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: u.toRem(4px);
+    }
 
     &__item {
       width: u.toRem(50px);
@@ -117,7 +123,23 @@
     }
   }
 
-  &__roll-btn {}
+  &__roll-btn:hover {
+    transform: scale(1.05);
+  }
 
-  &__start-btn {}
+  .best-result {
+    margin-top: u.toRem(30px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &__title {
+      font-size: u.toRem(20px);
+      color: v.$heading-text-color;
+    }
+
+    &__content {
+      color: v.$instruction-text-color;
+    }
+  }
 }
